@@ -14,6 +14,9 @@
 #     summoner_name = summoner_data['displayName']
 #     summoner_puuid = summoner_data['puuid']
 #     print(summoner_puuid)
+#     @connector.ws.register('/lol-summoner/v1/current-summoner', event_types=('UPDATE',))
+#     async def icon_changed(connection, event):
+#         print(event.data)
 #
 #
 # async def get_game_zone(connection):
@@ -73,9 +76,8 @@
 #     @connector.ready
 #     async def connect(connection):
 #         await get_summoner_data(connection)
+#         await icon_changed
 #
-#     # @connector.ws.register('/lol-summoner/v1/current-summoner', event_types=('UPDATE',))
-#     # async def icon_changed(connection, event):
-#     #     print(event.data)
+#
 #
 #     connector.start()
