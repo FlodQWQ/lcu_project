@@ -1,5 +1,4 @@
 import operator
-import psutil
 import threading
 from lcu_driver import Connector
 
