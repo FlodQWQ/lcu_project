@@ -55,6 +55,7 @@ async def get_game_zone(connection):
     global g_game_zone
     g_game_zone = game_zone
 
+
 class info(threading.Thread):
     def __init__(self, name):
         threading.Thread.__init__(self)
@@ -69,6 +70,7 @@ def getInfo():
     async def connect(connection):
         await get_summoner_data(connection)
         await get_game_zone(connection)
+
     connector.start()
 
 
@@ -76,5 +78,3 @@ def runTread():
     thread1 = info("Thread-1")
     thread1.start()
     thread1.join()
-
-
