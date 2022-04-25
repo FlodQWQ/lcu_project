@@ -14,7 +14,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(844, 702)
+        MainWindow.resize(834, 688)
+        MainWindow.setMinimumSize(QtCore.QSize(834, 688))
+        MainWindow.setMaximumSize(QtCore.QSize(834, 688))
+        MainWindow.setAnimated(True)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
@@ -61,7 +64,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.btn_update)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 844, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 834, 26))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
