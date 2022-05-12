@@ -1,7 +1,8 @@
 import operator
-import api.http2_api
+import api.lcu_special_api
 from PyQt5.QtCore import QThread, pyqtSignal, QMutex
 from lcu_driver import Connector
+import api.htmlUtil
 
 connector = Connector()
 
@@ -19,12 +20,10 @@ class Thread_1(QThread):
 
     def run(self):
 
-        async def get_link(connection):
-            link = connection.address
-            auth = connection.auth_key
-            print(link)
-            print(auth)
-            api.http2_api.h2_get(link, auth, '/lol-champ-select/v1/session')
+        async def initial(connection):
+            port = str(connection.port)
+            auth_key = connection.auth_key
+            api.htmlUtil.initial(auth_key, port)
 
         async def get_summoner_data(connection):
             summoner = await connection.request('GET', '/lol-summoner/v1/current-summoner')
@@ -75,9 +74,9 @@ class Thread_1(QThread):
         async def room_info(connection, event):
             status = event.data
             if status == "ChampSelect":
-                room = await connection.request('GET', '/lol-champ-select/v1/session')
-                room_data = await room.json()
-                print(room_data)
+                room = api.htmlUtil.get('/lol-champ-select/v1/session')
+                # room_data = await room.json()
+                # print(room_data)
 
         @connector.ws.register('/lol-gameflow/v1/gameflow-phase', event_types=('UPDATE',))
         async def client_status_changed(connection, event):
@@ -106,10 +105,9 @@ class Thread_1(QThread):
 
         @connector.ready
         async def connect(connection):
-            await get_link(connection)
+            await initial(connection)
             await get_summoner_data(connection)
             await get_game_zone(connection)
             await client_status_changed(connection)
-            await room_info()
 
         connector.start()

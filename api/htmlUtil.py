@@ -7,10 +7,18 @@ options = webdriver.ChromeOptions()
 options.add_argument('headless')
 options.add_argument('ignore-certificate-errors')
 driver = webdriver.Chrome("../webdriver/chromedriver.exe", chrome_options=options)
+password = '-'
+port = '-'
 
 
-def get(password, port, order):
-    res = webdriver.request('GET', 'https://riot:X7aZdOdVzi9HBgejAdNr2A@127.0.0.1:5254/lol-champ-select/v1/session')
+def initial(password1, port1):
+    global password, port
+    password = password1
+    port = port1
+
+
+def get(order):
+    driver.get('https://riot:' + password + '@127.0.0.1:' + port + order)
     html = driver.page_source
     soup = BeautifulSoup(html, 'lxml')
     ss = soup.select('pre')[0]
@@ -18,4 +26,3 @@ def get(password, port, order):
     driver.close()
     print(res)
     return res
-
