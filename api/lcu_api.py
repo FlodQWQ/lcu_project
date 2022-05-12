@@ -1,6 +1,5 @@
 import operator
-import threading
-import time
+import api.http2_api
 from PyQt5.QtCore import QThread, pyqtSignal, QMutex
 from lcu_driver import Connector
 
@@ -10,6 +9,8 @@ g_summoner_name = '-'
 g_summoner_puuid = '-'
 g_game_zone = '-'
 g_client_status = '-'
+link = '-'
+auth = '-'
 
 
 class Thread_1(QThread):
@@ -17,6 +18,14 @@ class Thread_1(QThread):
         super().__init__()
 
     def run(self):
+
+        async def get_link(connection):
+            link = connection.address
+            auth = connection.auth_key
+            print(link)
+            print(auth)
+            api.http2_api.h2_get(link, auth, '/lol-champ-select/v1/session')
+
         async def get_summoner_data(connection):
             summoner = await connection.request('GET', '/lol-summoner/v1/current-summoner')
             summoner_data = await summoner.json()
@@ -63,9 +72,16 @@ class Thread_1(QThread):
             g_game_zone = game_zone
 
         @connector.ws.register('/lol-gameflow/v1/gameflow-phase', event_types=('UPDATE',))
-        async def client_status_changed(connection,event):
+        async def room_info(connection, event):
             status = event.data
-            print(status)
+            if status == "ChampSelect":
+                room = await connection.request('GET', '/lol-champ-select/v1/session')
+                room_data = await room.json()
+                print(room_data)
+
+        @connector.ws.register('/lol-gameflow/v1/gameflow-phase', event_types=('UPDATE',))
+        async def client_status_changed(connection, event):
+            status = event.data
             global g_client_status
             if status == "None":
                 g_client_status = "大厅中"
@@ -90,8 +106,10 @@ class Thread_1(QThread):
 
         @connector.ready
         async def connect(connection):
+            await get_link(connection)
             await get_summoner_data(connection)
             await get_game_zone(connection)
             await client_status_changed(connection)
+            await room_info()
 
         connector.start()

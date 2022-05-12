@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 pyqt5 = "*"
 lcu-driver = "*"
-
 [dev-packages]
 
 [requires]
