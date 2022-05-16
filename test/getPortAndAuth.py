@@ -1,3 +1,6 @@
+import base64
+import json
+
 from lcu_driver import Connector
 
 connector = Connector()
@@ -8,7 +11,9 @@ async def getInfo(connection):
     auth_key = connection.auth_key
     print(port)
     print(auth_key)
-
+    data_bytes = "riot:4JvnzXY9PTZxBQaJRXY2oQ".encode()
+    auth = bytes.decode(base64.b64encode(data_bytes))
+    print(auth)
 
 @connector.ready
 async def connect(connection):

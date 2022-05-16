@@ -37,7 +37,7 @@ def showWindow():
     if CheckProcess() is None:
         app = QApplication(sys.argv)
         warning()
-        sys.exit(app.exec_())
+        sys.exit(0)
     else:
         app = QApplication(sys.argv)
         ui = mainUI()
@@ -49,3 +49,4 @@ if __name__ == '__main__':
     thread_main = myThread("Thread-main")
     thread_main.start()
     thread_main.join(0.5)
+

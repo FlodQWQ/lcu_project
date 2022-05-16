@@ -3,7 +3,6 @@ import api.lcu_special_api
 from PyQt5.QtCore import QThread, pyqtSignal, QMutex
 from lcu_driver import Connector
 import api.htmlUtil
-
 connector = Connector()
 
 g_summoner_name = '-'
@@ -20,17 +19,15 @@ class Thread_1(QThread):
 
     def run(self):
 
-        async def initial(connection):
+        async def get_summoner_data(connection):
             port = str(connection.port)
             auth_key = connection.auth_key
-            api.htmlUtil.initial(auth_key, port)
-
-        async def get_summoner_data(connection):
             summoner = await connection.request('GET', '/lol-summoner/v1/current-summoner')
             summoner_data = await summoner.json()
             global g_summoner_name, g_summoner_puuid
             g_summoner_name = summoner_data['displayName']
             g_summoner_puuid = summoner_data['puuid']
+            api.htmlUtil.initial(auth_key, port, summoner_data['puuid'], summoner_data['profileIconId'])
 
         async def get_game_zone(connection):
             environment = await connection.request('GET', '/riotclient/v1/crash-reporting/environment')
@@ -105,7 +102,6 @@ class Thread_1(QThread):
 
         @connector.ready
         async def connect(connection):
-            await initial(connection)
             await get_summoner_data(connection)
             await get_game_zone(connection)
             await client_status_changed(connection)
