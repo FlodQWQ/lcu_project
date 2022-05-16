@@ -21,13 +21,14 @@ headers = {':authority': '127.0.0.1:7455',
            'Sec-Fetch-Site': 'none',
            'Sec-Fetch-User': '?1',
            'Upgrade-Insecure-Requests': '1',
-           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36'}
+           'authorization': 'Basic cmlvdDpYN2FaZE9kVnppOUhCZ2VqQWROcjJB',
+           'User-Agent': 'LeagueOfLegendsClient'}
 
 # response = requests.get('https://127.0.0.1:5500/lol-champ-select/v1/session', headers=headers, verify=False)
 
 s = requests.Session()
-s.mount('https://127.0.0.1:7455', HTTP20Adapter())
-response = s.get('https://127.0.0.1:7455/lol-champ-select/v1/session',
+s.mount('https://127.0.0.1:5254', HTTP20Adapter())
+response = s.get('https://127.0.0.1:5254/lol-champ-select/v1/session',
                  auth=HTTPBasicAuth('riot', 'nEuDsNkDXqUAhiG7vTfL-A'), verify=False, headers=headers)
 print(response.json())
 print(response.status_code)

@@ -1,0 +1,3 @@
+https://127.0.0.1:7455/lol-champ-select/v1/session
+https://127.0.0.1:7775/lol-summoner/v1/current-summoner
+https://127.0.0.1:7775/lol-match-history/v1/products/lol/3a9e4148-c910-5093-b9f2-f10f96ea2837/matches?begIndex=0&endIndex=6
