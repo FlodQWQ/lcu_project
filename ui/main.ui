@@ -132,14 +132,17 @@
      </item>
     </layout>
    </widget>
-   <widget class="QGraphicsView" name="gv_profileIcon">
+   <widget class="QLabel" name="label_icon">
     <property name="geometry">
      <rect>
-      <x>580</x>
-      <y>30</y>
+      <x>590</x>
+      <y>40</y>
       <width>200</width>
       <height>200</height>
      </rect>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>

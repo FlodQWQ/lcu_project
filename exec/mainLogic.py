@@ -1,6 +1,9 @@
 import threading
 import time
+
+from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtCore import QTimer
+from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow
 from ui.main import Ui_MainWindow
 from api import lcu_api, htmlUtil
@@ -16,9 +19,10 @@ class mainUI(QMainWindow, Ui_MainWindow):
             time.sleep(0.25)
         self.thread_2 = htmlUtil.Thread_2()
         self.thread_2.start()
-        while htmlUtil.g_ranked_flex == '-':
+        while htmlUtil.g_ranked_flex == '-' or htmlUtil.g_icon_path == '-':
             time.sleep(0.25)
         self.init_info()
+        self.set_summoner_icon()
         self.countTimer = QTimer(self)
         self.countTimer.start(500)
         self.countTimer.timeout.connect(self.refresh_ui)
@@ -39,7 +43,18 @@ class mainUI(QMainWindow, Ui_MainWindow):
         self.label_flex_rank.setText(htmlUtil.g_ranked_flex)
         self.label_flex_rank.repaint()
 
-
+    def set_summoner_icon(self):
+        icon = QPixmap(htmlUtil.g_icon_path)
+        width = icon.width()
+        height = icon.height()
+        if width / self.label_icon.width() >= height / self.label_icon.height():
+            ratio = width / self.label_icon.width()
+        else:
+            ratio = height / self.label_icon.height()
+        new_width = width / ratio
+        new_height = height / ratio
+        new_img = icon.scaled(new_width, new_height)
+        self.label_icon.setPixmap(new_img)
 
 
 class myThread_status(threading.Thread):

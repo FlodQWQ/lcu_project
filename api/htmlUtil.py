@@ -1,4 +1,6 @@
 import base64
+import os
+
 import requests
 import util.analysisUtils
 from PIL import Image
@@ -10,14 +12,14 @@ my_puuid = '-'
 my_profileIconId = '-'
 g_ranked_solo = '-'
 g_ranked_flex = '-'
-
+g_icon_path = '-'
 
 def initial(auth_key, port, puuid, profileIconId):
     global auth_key1, port1, my_puuid, my_profileIconId
     auth_key1 = auth_key
     port1 = port
     my_puuid = puuid
-    my_profileIconId = profileIconId
+    my_profileIconId = str(profileIconId)
 
 
 class Thread_2(QThread):
@@ -57,10 +59,20 @@ class Thread_2(QThread):
 
         def get_profileIconId():
             response = requests.get(
-                'https://127.0.0.1:' + port + '/lol-game-data/assets/v1/profile-icons/' + my_profileIconId + '.jpg').content
-            
+                'https://127.0.0.1:' + port + '/lol-game-data/assets/v1/profile-icons/' + my_profileIconId + '.jpg',
+                headers=headers,
+                verify=False)
+            path = os.path.dirname(os.getcwd())
+            if not os.path.exists(path + "/tmp/images"):
+                os.makedirs(path + '/tmp/images')
+            picname = path + "/tmp/images/" + "profileIcon_" + my_profileIconId + ".png"
+            with open(picname, 'wb') as f:
+                f.write(response.content)
+            global g_icon_path
+            g_icon_path = picname
 
         get_ranked_info()
+        get_profileIconId()
         global g_ranked_solo, g_ranked_flex
         print(g_ranked_solo)
         print(g_ranked_flex)
