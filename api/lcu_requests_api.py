@@ -13,6 +13,7 @@ g_ranked_solo = '-'
 g_ranked_flex = '-'
 g_icon_path = '-'
 
+
 def initial(auth_key, port, puuid, profileIconId):
     global auth_key1, port1, my_puuid, my_profileIconId
     auth_key1 = auth_key
