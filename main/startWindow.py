@@ -1,7 +1,9 @@
+import shutil
+
 import psutil
 import sys
 import threading
-import time
+import atexit
 
 from PyQt5.QtWidgets import QApplication, QDialog, QWidget, QMessageBox
 
@@ -15,6 +17,10 @@ class myThread(threading.Thread):
 
     def run(self):
         showWindow()
+
+
+def clear_tmp():
+    shutil.rmtree('../tmp')
 
 
 def CheckProcess():
@@ -49,4 +55,4 @@ if __name__ == '__main__':
     thread_main = myThread("Thread-main")
     thread_main.start()
     thread_main.join(0.5)
-
+    atexit.register(clear_tmp)

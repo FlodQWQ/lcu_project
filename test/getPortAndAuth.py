@@ -11,7 +11,7 @@ async def getInfo(connection):
     auth_key = connection.auth_key
     print(port)
     print(auth_key)
-    data_bytes = "riot:4JvnzXY9PTZxBQaJRXY2oQ".encode()
+    data_bytes = ("riot:" + auth_key).encode()
     auth = bytes.decode(base64.b64encode(data_bytes))
     print(auth)
 

@@ -1,8 +1,9 @@
 import operator
-import api.lcu_special_api
+import api.lcu_webdriver_api
 from PyQt5.QtCore import QThread, pyqtSignal, QMutex
 from lcu_driver import Connector
-import api.htmlUtil
+import api.lcu_requests_api
+
 connector = Connector()
 
 g_summoner_name = '-'
@@ -27,7 +28,7 @@ class Thread_1(QThread):
             global g_summoner_name, g_summoner_puuid
             g_summoner_name = summoner_data['displayName']
             g_summoner_puuid = summoner_data['puuid']
-            api.htmlUtil.initial(auth_key, port, summoner_data['puuid'], summoner_data['profileIconId'])
+            api.lcu_requests_api.initial(auth_key, port, summoner_data['puuid'], summoner_data['profileIconId'])
 
         async def get_game_zone(connection):
             environment = await connection.request('GET', '/riotclient/v1/crash-reporting/environment')
@@ -70,8 +71,8 @@ class Thread_1(QThread):
         @connector.ws.register('/lol-gameflow/v1/gameflow-phase', event_types=('UPDATE',))
         async def room_info(connection, event):
             status = event.data
-            if status == "ChampSelect":
-                room = api.htmlUtil.get('/lol-champ-select/v1/session')
+            # if status == "ChampSelect":
+                # room = api.lcu_requests_api.get('/lol-champ-select/v1/session')
                 # room_data = await room.json()
                 # print(room_data)
 

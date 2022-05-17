@@ -6,7 +6,7 @@ from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow
 from ui.main import Ui_MainWindow
-from api import lcu_api, htmlUtil
+from api import lcu_api, lcu_requests_api
 
 
 class mainUI(QMainWindow, Ui_MainWindow):
@@ -17,9 +17,9 @@ class mainUI(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         while lcu_api.g_summoner_name == '-':
             time.sleep(0.25)
-        self.thread_2 = htmlUtil.Thread_2()
+        self.thread_2 = lcu_requests_api.Thread_2()
         self.thread_2.start()
-        while htmlUtil.g_ranked_flex == '-' or htmlUtil.g_icon_path == '-':
+        while lcu_requests_api.g_ranked_flex == '-' or lcu_requests_api.g_icon_path == '-':
             time.sleep(0.25)
         self.init_info()
         self.set_summoner_icon()
@@ -34,17 +34,15 @@ class mainUI(QMainWindow, Ui_MainWindow):
     def init_info(self):
         self.label_id.setText(lcu_api.g_summoner_name)
         self.label_id.repaint()
-        self.label_uuid.setText(lcu_api.g_summoner_puuid)
-        self.label_uuid.repaint()
-        self.label_solo_rank.setText(htmlUtil.g_ranked_solo)
+        self.label_solo_rank.setText(lcu_requests_api.g_ranked_solo)
         self.label_solo_rank.repaint()
-        self.label_solo_rank.setText(htmlUtil.g_ranked_solo)
+        self.label_solo_rank.setText(lcu_requests_api.g_ranked_solo)
         self.label_solo_rank.repaint()
-        self.label_flex_rank.setText(htmlUtil.g_ranked_flex)
+        self.label_flex_rank.setText(lcu_requests_api.g_ranked_flex)
         self.label_flex_rank.repaint()
 
     def set_summoner_icon(self):
-        icon = QPixmap(htmlUtil.g_icon_path)
+        icon = QPixmap(lcu_requests_api.g_icon_path)
         width = icon.width()
         height = icon.height()
         if width / self.label_icon.width() >= height / self.label_icon.height():

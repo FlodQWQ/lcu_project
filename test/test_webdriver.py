@@ -4,13 +4,13 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 
 
-options = webdriver.ChromeOptions()
+options = webdriver.EdgeOptions()
 options.add_argument('headless')
 options.add_argument('ignore-certificate-errors')
 
 
-driver = webdriver.Chrome("../webdriver/chromedriver.exe", chrome_options=options)
-driver.get("https://riot:X7aZdOdVzi9HBgejAdNr2A@127.0.0.1:5254/lol-champ-select/v1/session")
+driver = webdriver.Edge("../webdriver/msedgedriver.exe", options=options)
+driver.get("https://riot:dXKL1VvCDsaddWYkue_9DA@127.0.0.1:6477/lol-champ-select/v1/session")
 html = driver.page_source
 soup = BeautifulSoup(html, 'lxml')
 ss = soup.select('pre')[0]
