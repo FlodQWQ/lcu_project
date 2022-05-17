@@ -6,6 +6,7 @@ import threading
 import atexit
 
 from PyQt5.QtWidgets import QApplication, QDialog, QWidget, QMessageBox
+from jpype import *
 
 from exec.mainLogic import mainUI
 

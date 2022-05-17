@@ -5,13 +5,13 @@ import requests
 import util.analysisUtils
 from PyQt5.QtCore import QThread
 
-auth_key1 = '-'
-port1 = '-'
-my_puuid = '-'
-my_profileIconId = '-'
-g_ranked_solo = '-'
-g_ranked_flex = '-'
-g_icon_path = '-'
+auth_key1 = ''
+port1 = ''
+my_puuid = ''
+my_profileIconId = ''
+g_ranked_solo = ''
+g_ranked_flex = ''
+g_icon_path = ''
 
 
 def initial(auth_key, port, puuid, profileIconId):
